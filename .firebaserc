@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "test-project-2d71d"
+  },
+  "targets": {
+    "test-project-2d71d": {
+      "hosting": {
+        "test-osf-events-funneling": [ "test-osf-events-funneling" ]
+      }
+    }
+  }
+}

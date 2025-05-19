@@ -1,0 +1,181 @@
+/*Splash screen animations*/
+
+@property --splash-color-1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #7DA245;
+}
+
+@property --splash-color-2 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #259D61;
+}
+
+@property --splash-color-3 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #2F9E7C;
+}
+
+/*.splashGradient {
+    background-image: "linear-gradient(#7DA245,#259D61,#2F9E7C)";
+  }*/
+
+@keyframes splash-gradient-fade-out {
+    0% {
+        opacity: 1.0;
+    }
+
+    100% {
+        opacity: 0.0;
+    }
+}
+
+@keyframes splash-jump-in-out-top {
+    0% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+
+    10% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+
+    15% {
+        opacity: 1.0;
+        transform: translate(0px, 24px);
+    }
+
+    25% {
+        opacity: 1.0;
+        transform: translate(0px, -12px);
+    }
+
+    45% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    55% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    75% {
+        opacity: 1.0;
+        transform: translate(0px, -12px);
+    }
+
+    85% {
+        opacity: 1.0;
+        transform: translate(0px, 24px);
+    }
+
+    90% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+
+    100% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+}
+
+@keyframes splash-jump-in-out-bottom {
+    0% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+
+    10% {
+        opacity: 1.0;
+        transform: translate(0px, 24px);
+    }
+
+    15% {
+        opacity: 1.0;
+        transform: translate(0px, -12px);
+    }
+
+    20% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    40% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    45% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    55% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    60% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    80% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    85% {
+        opacity: 1.0;
+        transform: translate(0px, -12px);
+    }
+
+    90% {
+        opacity: 1.0;
+        transform: translate(0px, 24px);
+    }
+
+    100% {
+        opacity: 0.0;
+        transform: translate(0px, -100px);
+    }
+}
+
+@keyframes splash-fade-in-out {
+    0% {
+        opacity: 0.0;
+        transform: translate(0px, -24px);
+    }
+
+    20% {
+        opacity: 1.0;
+        transform: translate(0px, 12px);
+    }
+
+    30% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    80% {
+        opacity: 1.0;
+        transform: translate(0px, 0px);
+    }
+
+    90% {
+        opacity: 1.0;
+        transform: translate(0px, 12px);
+    }
+
+    100% {
+        opacity: 0.0;
+        transform: translate(0px, -24px);
+    }
+}
+
+/**/
