@@ -17,7 +17,7 @@ export default function Page_1(props: Page_1_Props) {
             <h1 style={{ color: "lightgray" }}>Page 1</h1>
             <img
 
-                style={{ height: "auto", width: "50%" }}
+                style={{ height: "auto", width: "50%", maxWidth: "350px" }}
                 src={"/bigTimby.gif"} >
 
             </img>

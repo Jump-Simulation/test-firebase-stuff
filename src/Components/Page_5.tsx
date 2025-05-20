@@ -20,6 +20,12 @@ export default function Page_5(props: Page_5_Props) {
         >
             <h1 style={{ color: "lightgray" }}>Page 5</h1>
             <h4 style={{ color: "lightgray" }}>Given text: {props.given_state_TestText}</h4>
+            <img
+
+                style={{ height: "auto", width: "50%", maxWidth: "350px" }}
+                src={"/assets/kingCrab.gif"} >
+
+            </img>
             <Button
                 onClick={() => { props.given_SetPage("page6"), props.given_LogButtonPress("event-4"); }}
                 style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 4 and Continue</Button>

@@ -22,7 +22,7 @@ export default function Page_6(props: Page_6_Props) {
             <h4 style={{ color: "#e7ded6" }}>Given text: {props.given_state_TestText}</h4>
             <img
 
-                style={{ height: "auto", width: "50%" }}
+                style={{ height: "auto", width: "50%", maxWidth: "350px" }}
                 src={"/9266d9e80b133d6b24e901c4da29ab4f.gif"} >
 
             </img>

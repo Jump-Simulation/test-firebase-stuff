@@ -20,7 +20,14 @@ export default function Page_2(props: Page_2_Props) {
             className="page-default"
         >
             <h1 style={{ color: "lightgray" }}>Page 2</h1>
+
             <h4 style={{ color: "lightgray" }}>Given text: {props.given_state_TestText}</h4>
+            <img
+
+                style={{ height: "auto", width: "50%", maxWidth: "350px" }}
+                src={"/assets/atlas.gif"} >
+
+            </img>
             <Button
                 onClick={() => { props.given_SetPage("page3"), props.given_LogButtonPress("event-1"); }}
                 style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 1 and Continue</Button>
