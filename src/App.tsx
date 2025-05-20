@@ -1,14 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+var BuildVersion: string = `0.02`;
+
+
+
+import { useEffect, useState } from 'react'
+
 import './App.css'
 
 import "bootstrap/dist/css/bootstrap.css"
+import { DeviceInfo } from './types';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import { Button } from 'react-bootstrap'
 import Screen_SplashScreen from './Components/SpashScreen'
+import Page_1 from './Components/Page_1';
+import Page_2 from './Components/Page_2';
+import Page_3 from './Components/Page_3';
+import Page_4 from './Components/Page_4';
+import Page_5 from './Components/Page_5';
+import Page_6 from './Components/Page_6';
+
+import { UAParser } from 'ua-parser-js';
+import DebugScreens_Mobile from './Components/DebugScreens_Mobile';
 
 
 const firebaseConfig = {
@@ -25,20 +37,106 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+var isMobileString: string = "mobile";
+const isMobile =
+  /Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
+if (!isMobile) {
+  isMobileString = "desktop";
+}
+
+
+const parser = new UAParser();
+const result = parser.getResult();
+
+// Device info
+const deviceType = result.device.type || 'Desktop';
+const deviceVendor = result.device.vendor || 'Unknown';
+const deviceModel = result.device.model || 'Unknown';
+
+// Browser info
+const browserName = result.browser.name || 'Unknown';
+const browserVersion = result.browser.version || 'Unknown';
+
+const deviceInfo: DeviceInfo = {
+  type: deviceType,
+  vendor: deviceVendor,
+  model: deviceModel,
+  browser: {
+    name: browserName,
+    version: browserVersion,
+  },
+};
+
+const getOrCreateUserID = (): string => {
+  let userID = localStorage.getItem("userIDActual");
+  if (!userID) {
+    userID = crypto.randomUUID(); // Generate unique UUID
+    localStorage.setItem("userIDActual", userID);
+  }
+  return userID;
+};
 
 function App() {
-  //const [pageCount, setPageCount] = useState(-1)
-  const [state_pageName, state_SetPageName] = useState("splashScreen");
-  const [text, setText] = useState<string>("");
+
+  const [state_PageName, state_SetPageName] = useState("splashScreen");
+  const [state_TestText, state_SetTestText] = useState<string>("");
+
+  const [state_DebugMobileLogs, state_SetDebugMobileLogsLogs] = useState<string[]>([]);
+  const [state_DebugMobileButtonTapped, state_SetDebugMobileButtonTapped] = useState(0)
+
+
+
+  useEffect(() => {
+
+    console.log("User ID: " + getOrCreateUserID())
+    console.log("Device Info:")
+    console.log(deviceInfo)
+
+  }, [])
+
+  var debugMode = false;
+  useEffect(() => {
+
+    if (debugMode === true) {
+      const originalLog = console.log;
+      const originalWarn = console.warn;
+      const originalError = console.error;
+
+
+      const handleLog = (type: string, ...args: any[]) => {
+
+        const message = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg) : arg)).join(" ");
+        state_SetDebugMobileLogsLogs(prevLogs => [...prevLogs, `[${type}] ${message}`]);
+        originalLog.apply(console, args);
+
+
+      };
+
+      console.log = (...args) => handleLog("LOG", ...args);
+      console.warn = (...args) => handleLog("WARN", ...args);
+      console.error = (...args) => handleLog("ERROR", ...args);
+
+      return () => {
+        console.log = originalLog;
+        console.warn = originalWarn;
+        console.error = originalError;
+      };
+    }
+  }, []);
+
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
+    state_SetTestText(event.target.value);
   };
 
 
   function LogButtonPress(givenString: string) {
-    logEvent(analytics, "page_view", { page_title: + "testEvent-" + text + "-" + givenString })
-    console.log("WE SHOULD BE SEEING EVENT: " + "testEvent-" + text + "-" + givenString);
+    logEvent(analytics, "page_view", { page_title: + "testEvent-" + state_TestText + "-" + givenString })
+    console.log("WE SHOULD BE SEEING EVENT: " + "testEvent-" + state_TestText + "-" + givenString);
   }
 
   function SetPage(givenPageName: string) {
@@ -49,7 +147,7 @@ function App() {
 
 
   function RenderPages() {
-    if (state_pageName === "splashScreen") {
+    if (state_PageName === "splashScreen") {
       return (
         <Screen_SplashScreen
           nextPageString={"landingScreen"}
@@ -57,185 +155,84 @@ function App() {
           GoToNextPage={state_SetPageName}></Screen_SplashScreen>
       )
     }
-    if (state_pageName === "page1") {
-      return Page_1();
+    if (state_PageName === "page1") {
+      return (
+        <Page_1
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_handleInputChange={handleInputChange}
+
+        />
+      )
     }
-    else if (state_pageName === "page2") {
-      return Page_2();
+    else if (state_PageName === "page2") {
+      return (
+        <Page_2
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_LogButtonPress={LogButtonPress}
+        />
+      )
     }
-    else if (state_pageName === "page3") {
-      return Page_3();
+    else if (state_PageName === "page3") {
+      return (
+        <Page_3
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_LogButtonPress={LogButtonPress}
+        />
+      )
     }
-    else if (state_pageName === "page4") {
-      return Page_4();
+    else if (state_PageName === "page4") {
+      return (
+        <Page_4
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_LogButtonPress={LogButtonPress}
+        />
+      )
     }
-    else if (state_pageName === "page5") {
-      return Page_5();
+    else if (state_PageName === "page5") {
+      return (
+        <Page_5
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_LogButtonPress={LogButtonPress}
+        />
+      )
     }
-    else if (state_pageName === "page6") {
-      return Page_6();
+    else if (state_PageName === "page6") {
+      return (
+        <Page_6
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+        />
+      )
     }
     else {
       //insert Navigation Error Report Here!
     }
   }
 
-  function Page_1() {
-    return (<div style={{
-      height: "100%",
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <img
-
-        style={{ height: "50%" }}
-        src={"/bigTimby.gif"} >
-
-      </img>
-      <h1 style={{ color: "lightgray" }}>Testing Event Funnels</h1>
-      <input
-        type="text"
-        value={text}
-        style={{ width: "85%" }}
-        onChange={handleInputChange}
-        placeholder="Enter your name (OPTIONAL)"
-        className="p-2 border rounded w-full"
-      />
-      <Button
-        onClick={() => { SetPage("page2") }}
-        style={{ backgroundColor: "lightgreen", color: "black", width: "85%" }}>Press to Start the Test</Button>
-    </div>)
-  }
-
-  function Page_2() {
-    return (<div style={{
-      backgroundColor: "darkred",
-      height: "85vh",
-      width: "50cqw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <h1 style={{ color: "lightgray" }}>Page 2</h1>
-      <Button
-        onClick={() => { SetPage("page3"), LogButtonPress("event-1"); }}
-        style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 1 and Continue</Button>
-      <Button
-        onClick={() => { SetPage("page3") }}
-        style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>Press to Continue with No Event Logged</Button>
-
-      <Button
-        onClick={() => { SetPage("page1") }}
-        style={{ backgroundColor: "pink", color: "black", width: "85%", }}>Press to Return to Previous Page</Button>
-    </div>)
-  }
-  function Page_3() {
-    return (<div style={{
-      backgroundColor: "darkgreen",
-      height: "85vh",
-      width: "50cqw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <h1 style={{ color: "lightgray" }}>Page 3</h1>
-      <Button
-        onClick={() => { SetPage("page4"), LogButtonPress("event-2"); }}
-        style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 2 and Continue</Button>
-      <Button
-        onClick={() => { SetPage("page4") }}
-        style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>Press to Continue with No Event Logged</Button>
-      <Button
-        onClick={() => { SetPage("page2") }}
-        style={{ backgroundColor: "pink", color: "black", width: "85%", }}>Press to Return to Previous Page</Button>
-    </div>)
-  }
-
-  function Page_4() {
-    return (<div style={{
-      backgroundColor: "darkblue",
-      height: "85vh",
-      width: "50cqw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <h1 style={{ color: "lightgray" }}>Page 4</h1>
-      <Button
-        onClick={() => { SetPage("page5"), LogButtonPress("event-3"); }}
-        style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 3 and Continue</Button>
-      <Button
-        onClick={() => { SetPage("page5") }}
-        style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>Press to Continue with No Event Logged</Button>
-      <Button
-        onClick={() => { SetPage("page3") }}
-        style={{ backgroundColor: "pink", color: "black", width: "85%", }}>Press to Return to Previous Page</Button>
-    </div>)
-  }
-
-  function Page_5() {
-    return (<div style={{
-      backgroundColor: "darkgoldenrod",
-      height: "85vh",
-      width: "50cqw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <h1 style={{ color: "lightgray" }}>Page 5</h1>
-      <Button
-        onClick={() => { SetPage("page6"), LogButtonPress("event-4"); }}
-        style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 4 and Continue</Button>
-      <Button
-        onClick={() => { SetPage("page6") }}
-        style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>Press to Continue with No Event Logged</Button>
-      <Button
-        onClick={() => { SetPage("page4") }}
-        style={{ backgroundColor: "pink", color: "black", width: "85%", }}>Press to Return to Previous Page</Button>
-    </div>)
-  }
-
-  function Page_6() {
-    return (<div style={{
-      backgroundColor: "#e7ded6",
-      height: "85vh",
-      width: "50cqw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "25px",
-    }}>
-      <h1 style={{ color: "black" }}>Page 6</h1>
-      <h3 style={{ color: "black" }}>Sensor sweep came back negative, MechWarrior!</h3>
-
-      <img
-
-        style={{ height: "50%" }}
-        src={"/9266d9e80b133d6b24e901c4da29ab4f.gif"} >
-
-      </img>
-      <h5 style={{ color: "black" }}>Return to base...</h5>
-      <Button
-        onClick={() => { SetPage("page5") }}
-        style={{ backgroundColor: "darkred", color: "white", width: "85%", }}>Press to Return to Previous Page</Button>
-    </div>)
-  }
-
   return (
-    RenderPages()
+    <div className={`main-container-${isMobileString}`}>
+
+      <DebugScreens_Mobile
+        given_LogsToPrint={state_DebugMobileLogs}
+        given_DebugButtonPressedNumber={state_DebugMobileButtonTapped}
+        given_SetDebugButtonPressedNumber={state_SetDebugMobileButtonTapped}
+        given_deviceInfo={deviceInfo}
+        given_BuildNumber={BuildVersion}
+      />
+      <img src='/assets/settings-icon.png' className='settings-icon'
+        onClick={() => { state_SetDebugMobileButtonTapped(1) }}
+      />
+
+      {RenderPages()}
+
+      <h6 style={{ color: "white", marginTop: "10px", backgroundColor: "darkgray", padding: "5px" }}>Current Build: {BuildVersion}</h6>
+    </div>
+
   )
 }
 

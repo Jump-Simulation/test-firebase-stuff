@@ -2,7 +2,7 @@
   "hosting": [
 
     {
-      "target": "test-osf-events-funneling",
+      "target": "osf-test-firebase",
       "public": "dist",
       "ignore": [
         "firebase.json",

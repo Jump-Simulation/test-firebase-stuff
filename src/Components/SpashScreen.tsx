@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import logoTitleSVG from "/assets/logo-title-1.svg";
 import logoIconSVG from "/assets/logo-icon-1.svg";
 import svgOSFLogo from "/assets/osf-logo.svg";
+import shadesGif from "/assets/shades.gif"
 import "../CSS/SplashScreen.css"
 
 interface Screen_SplashScreen_Props {
@@ -99,31 +100,19 @@ export default function Screen_SplashScreen(props: Screen_SplashScreen_Props) {
               paddingBottom: "10vh"
             }}
           >
-            <img
-              src={logoIconSVG}
-              alt=""
-              style={{
-                position: "relative",
-                opacity: "0.0",
-                animationName: "splash-jump-in-out-top",
-                animationDuration: "2s",
-                width: "35cqw",
-                height: "auto",
-                maxHeight: "200px",
-              }}
-            ></img>
+
 
             <img
-              src={logoTitleSVG}
+              src={shadesGif}
               alt=""
               style={{
                 position: "relative",
                 opacity: "0.0",
                 animationName: "splash-jump-in-out-bottom",
                 animationDuration: "2s",
-                width: "75cqw",
+                width: "85cqmin",
                 height: "auto",
-                maxHeight: "200px",
+                /*   maxHeight: "200px", */
               }}
             ></img>
           </div>
@@ -156,36 +145,6 @@ export default function Screen_SplashScreen(props: Screen_SplashScreen_Props) {
               }}
             ></img>
 
-            <p
-              style={{
-                color: "#ffffff",
-                position: "relative",
-                fontSize: "72px",
-                fontStyle: "oblique",
-
-                opacity: "0.0",
-                animationName: "splash-fade-in-out",
-                animationDuration: "2s",
-                animationDelay: "2.4s"
-              }}
-            >
-              +
-            </p>
-
-            {/*             <img
-              src={svgUICLogo}
-              alt=""
-              style={{
-                position: "relative",
-                width: "75cqw",
-                height: "auto",
-                maxHeight: "200px",
-                opacity: "0.0",
-                animationName: "splash-fade-in-out",
-                animationDuration: "2s",
-                animationDelay: "2.6s"
-              }}
-            ></img> */}
           </div>
 
         </div>
