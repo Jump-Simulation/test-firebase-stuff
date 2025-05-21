@@ -24,7 +24,7 @@ export default function Screen_SplashScreen(props: Screen_SplashScreen_Props) {
   function renderSplashScreen() {
     function setSplashScreenClicked(givenBool: boolean) {
       splashScreenBool = givenBool;
-      console.log("splashScreenClicked set to: " + splashScreenBool);
+      // console.log("splashScreenClicked set to: " + splashScreenBool);
     }
     intLock += 1;
     if (intLock <= 1) {
@@ -34,15 +34,15 @@ export default function Screen_SplashScreen(props: Screen_SplashScreen_Props) {
 
 
       let dummyFunction = function (givenBool: boolean) {
-        console.log("intLock = " + intLock);
+        // console.log("intLock = " + intLock);
         clearTimeout(splashAutoTimer);
-        console.log("GIVEN BOOL WAS: " + givenBool)
+        // console.log("GIVEN BOOL WAS: " + givenBool)
         if (givenBool === true) {
 
-          console.log("attempted to call  timeout function with : " + splashScreenBool);
+          // console.log("attempted to call  timeout function with : " + splashScreenBool);
         }
         else if (givenBool === false) {
-          console.log("calling timeout function with : " + splashScreenBool);
+          // console.log("calling timeout function with : " + splashScreenBool);
           props.GoToNextPage("page1");
         }
 

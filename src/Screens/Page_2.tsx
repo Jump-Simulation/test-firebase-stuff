@@ -30,14 +30,22 @@ export default function Page_2(props: Page_2_Props) {
             </img>
             <Button
                 onClick={() => { props.given_SetPage("page3"), props.given_LogButtonPress("event-1"); }}
-                style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 1 and Continue</Button>
+                style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>
+                Press to Log Event 1 and Continue
+            </Button>
             <Button
                 onClick={() => { props.given_SetPage("page3") }}
-                style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>Press to Continue with No Event Logged</Button>
+                style={{ backgroundColor: "lightblue", color: "black", width: "85%", }}>
+                Press to Continue with No Event Logged
+            </Button>
 
             <Button
                 onClick={() => { props.given_SetPage("page1") }}
-                style={{ backgroundColor: "pink", color: "black", width: "85%", }}>Press to Return to Previous Page</Button>
+                style={{ backgroundColor: "pink", color: "black", width: "85%", }}>
+                Press to Return to Previous Page
+            </Button>
+
+
         </div>
     )
 }

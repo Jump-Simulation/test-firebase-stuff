@@ -1,5 +1,5 @@
 var BuildVersion: string = `0.05`;
-
+var debugMode = true;
 
 
 import { useEffect, useState } from 'react'
@@ -11,16 +11,18 @@ import { DeviceInfo } from './types';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import Screen_SplashScreen from './Components/SpashScreen'
-import Page_1 from './Components/Page_1';
-import Page_2 from './Components/Page_2';
-import Page_3 from './Components/Page_3';
-import Page_4 from './Components/Page_4';
-import Page_5 from './Components/Page_5';
-import Page_6 from './Components/Page_6';
+import Screen_SplashScreen from './Screens/SpashScreen'
+import Page_1 from './Screens/Page_1';
+import Page_2 from './Screens/Page_2';
+import Page_3 from './Screens/Page_3';
+import Page_4 from './Screens/Page_4';
+import Page_5 from './Screens/Page_5';
+import Page_6 from './Screens/Page_6';
 
 import { UAParser } from 'ua-parser-js';
-import DebugScreens_Mobile from './Components/DebugScreens_Mobile';
+import DebugScreens_Mobile from './Screens/DebugScreens_Mobile';
+import Page_NavError from './Screens/Page_NavError';
+import DebugScreens from './Screens/DebugScreens';
 
 
 const firebaseConfig = {
@@ -97,7 +99,7 @@ function App() {
 
   }, [])
 
-  var debugMode = false;
+
   useEffect(() => {
 
     if (debugMode === true) {
@@ -109,7 +111,29 @@ function App() {
       const handleLog = (type: string, ...args: any[]) => {
 
         const message = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg) : arg)).join(" ");
-        state_SetDebugMobileLogsLogs(prevLogs => [...prevLogs, `[${type}] ${message}`]);
+
+
+
+        // Capture stack trace
+        const err = new Error();
+        const stackLines = err.stack?.split("\n") || [];
+        let locationInfo = "";
+
+        // Stack line format varies, but we typically want the third line
+        // (first is 'Error', second is this function, third is caller)
+        if (stackLines.length >= 3) {
+          const relevantLine = stackLines[3]; // Index 2 = caller of console.* 
+          const match = relevantLine.match(/\(?([^\s]+:\d+:\d+)\)?$/); // Capture file:line:col
+
+          if (match) {
+            locationInfo = `\n@ ${match[1]}`; // Append to log message
+          }
+        }
+
+
+
+
+        state_SetDebugMobileLogsLogs(prevLogs => [...prevLogs, `[${type}] ${message}${locationInfo}`]);
         originalLog.apply(console, args);
 
 
@@ -211,26 +235,66 @@ function App() {
     }
     else {
       //insert Navigation Error Report Here!
+
+
+      return (
+        <Page_NavError
+          given_state_TestText={state_TestText}
+          given_SetPage={state_SetPageName}
+          given_LogButtonPress={LogButtonPress}
+        />
+      )
+    }
+  }
+
+  function RenderDebugScreens() {
+    if (isMobile) {
+      return (<>
+        <img src='/assets/settings-icon.png' className='settings-icon'
+          onClick={() => { state_SetDebugMobileButtonTapped(1) }}
+        />
+
+        <DebugScreens_Mobile
+          given_LogsToPrint={state_DebugMobileLogs}
+          given_DebugButtonPressedNumber={state_DebugMobileButtonTapped}
+          given_SetDebugButtonPressedNumber={state_SetDebugMobileButtonTapped}
+          given_deviceInfo={deviceInfo}
+          given_BuildNumber={BuildVersion}
+        />
+      </>)
+    }
+    else {
+      return (<>
+        <DebugScreens
+          given_LogsToPrint={state_DebugMobileLogs}
+          given_DebugButtonPressedNumber={state_DebugMobileButtonTapped}
+          given_SetDebugButtonPressedNumber={state_SetDebugMobileButtonTapped}
+          given_deviceInfo={deviceInfo}
+          given_BuildNumber={BuildVersion}
+        />
+
+      </>)
     }
   }
 
   return (
     <div className={`main-container-${isMobileString}`}>
 
-      <DebugScreens_Mobile
-        given_LogsToPrint={state_DebugMobileLogs}
-        given_DebugButtonPressedNumber={state_DebugMobileButtonTapped}
-        given_SetDebugButtonPressedNumber={state_SetDebugMobileButtonTapped}
-        given_deviceInfo={deviceInfo}
-        given_BuildNumber={BuildVersion}
-      />
-      <img src='/assets/settings-icon.png' className='settings-icon'
-        onClick={() => { state_SetDebugMobileButtonTapped(1) }}
-      />
 
+
+      {RenderDebugScreens()}
+
+      <h6 style={{
+        color: "white",
+        marginTop: "10px",
+        backgroundColor: "darkgray",
+        padding: "5px"
+      }}>
+        Current Build: {BuildVersion}
+      </h6>
       {RenderPages()}
 
-      <h6 style={{ color: "white", marginTop: "10px", backgroundColor: "darkgray", padding: "5px" }}>Current Build: {BuildVersion}</h6>
+
     </div>
 
   )

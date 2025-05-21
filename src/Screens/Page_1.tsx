@@ -45,6 +45,29 @@ export default function Page_1(props: Page_1_Props) {
                     style={{ backgroundColor: "lightgreen", color: "black", width: "100%" }}>
                     Press to Start the Test
                 </Button>
+
+            </div>
+
+            <div style={{
+                background: "gray",
+                padding: "15px",
+                gap: "15px",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+            }}>
+
+
+                <h3 style={{ color: "lightgray" }}>Testing Firebase Error Reporting</h3>
+
+                <Button
+                    onClick={() => { props.given_SetPage("page_that_doesn't_exist!") }}
+                    style={{ backgroundColor: "maroon", color: "white", width: "100%", }}>
+                    Press to Simulate a Nav Error!
+                </Button>
+
+
             </div>
 
         </div>
