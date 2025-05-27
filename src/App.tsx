@@ -1,16 +1,11 @@
 var BuildVersion: string = `0.05`;
 var debugMode = true;
 
-
 import { useEffect, useState } from 'react'
-
 import './App.css'
-
 import "bootstrap/dist/css/bootstrap.css"
 import { DeviceInfo } from './types';
-
-import { initializeApp } from "firebase/app";
-import { getAnalytics, logEvent } from "firebase/analytics";
+import { logEvent } from "firebase/analytics";
 import Screen_SplashScreen from './Screens/SpashScreen'
 import Page_1 from './Screens/Page_1';
 import Page_2 from './Screens/Page_2';
@@ -18,26 +13,13 @@ import Page_3 from './Screens/Page_3';
 import Page_4 from './Screens/Page_4';
 import Page_5 from './Screens/Page_5';
 import Page_6 from './Screens/Page_6';
-
 import { UAParser } from 'ua-parser-js';
 import DebugScreens_Mobile from './Screens/DebugScreens_Mobile';
 import Page_NavError from './Screens/Page_NavError';
 import DebugScreens from './Screens/DebugScreens';
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAdvU9v4X8LF8y1E8-QWLOfqK5NWZv7rJU",
-  authDomain: "test-project-2d71d.firebaseapp.com",
-  projectId: "test-project-2d71d",
-  storageBucket: "test-project-2d71d.firebasestorage.app",
-  messagingSenderId: "645583960307",
-  appId: "1:645583960307:web:39f2780443225c82099f86",
-  measurementId: "G-FMKT6KY0WJ"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+import { collection, addDoc } from 'firebase/firestore';
+import { analytics, firestore, appCheck } from './Firebase';
+//import { getToken } from 'firebase/app-check';
 
 var isMobileString: string = "mobile";
 const isMobile =
@@ -48,7 +30,6 @@ const isMobile =
 if (!isMobile) {
   isMobileString = "desktop";
 }
-
 
 const parser = new UAParser();
 const result = parser.getResult();
@@ -88,8 +69,6 @@ function App() {
 
   const [state_DebugMobileLogs, state_SetDebugMobileLogsLogs] = useState<string[]>([]);
   const [state_DebugMobileButtonTapped, state_SetDebugMobileButtonTapped] = useState(0)
-
-
 
   useEffect(() => {
 
@@ -163,12 +142,22 @@ function App() {
     console.log("WE SHOULD BE SEEING EVENT: " + "testEvent-" + state_TestText + "-" + givenString);
   }
 
+  const [input, setInput] = useState<string>('');
+
+  async function AddObject(data: object) {
+    try {
+      const docRef = await addDoc(collection(firestore, 'userErrors'), data);
+      console.log('Document Sent: ', docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error('Document Send Failed: ', error);
+      throw error;
+    }
+  }  
+
   function SetPage(givenPageName: string) {
     state_SetPageName(givenPageName);
   }
-
-
-
 
   function RenderPages() {
     if (state_PageName === "splashScreen") {
@@ -195,6 +184,7 @@ function App() {
           given_state_TestText={state_TestText}
           given_SetPage={state_SetPageName}
           given_LogButtonPress={LogButtonPress}
+          given_AddObject={AddObject}
         />
       )
     }
@@ -204,6 +194,7 @@ function App() {
           given_state_TestText={state_TestText}
           given_SetPage={state_SetPageName}
           given_LogButtonPress={LogButtonPress}
+          given_AddObject={AddObject}
         />
       )
     }
@@ -213,6 +204,7 @@ function App() {
           given_state_TestText={state_TestText}
           given_SetPage={state_SetPageName}
           given_LogButtonPress={LogButtonPress}
+          given_AddObject={AddObject}
         />
       )
     }
@@ -222,6 +214,7 @@ function App() {
           given_state_TestText={state_TestText}
           given_SetPage={state_SetPageName}
           given_LogButtonPress={LogButtonPress}
+          given_AddObject={AddObject}
         />
       )
     }

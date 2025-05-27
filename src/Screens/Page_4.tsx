@@ -5,6 +5,7 @@ interface Page_4_Props {
     given_state_TestText: string;
     given_LogButtonPress(givenString: string): void;
     given_SetPage(givenPageName: string): void;
+    given_AddObject(data: object): void;
 }
 
 
@@ -27,7 +28,7 @@ export default function Page_4(props: Page_4_Props) {
 
             </img>
             <Button
-                onClick={() => { props.given_SetPage("page5"), props.given_LogButtonPress("event-3"); }}
+                onClick={() => { props.given_SetPage("page5"), props.given_LogButtonPress("event-3"); props.given_AddObject( {"message" : "Error3"})}}
                 style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 3 and Continue</Button>
             <Button
                 onClick={() => { props.given_SetPage("page5") }}
