@@ -19,6 +19,8 @@ import Page_NavError from './Screens/Page_NavError';
 import DebugScreens from './Screens/DebugScreens';
 import { collection, addDoc } from 'firebase/firestore';
 import { analytics, firestore, appCheck } from './Firebase';
+import { auth } from "./Firebase";
+import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 //import { getToken } from 'firebase/app-check';
 
 var isMobileString: string = "mobile";
@@ -66,9 +68,26 @@ function App() {
 
   const [state_PageName, state_SetPageName] = useState("splashScreen");
   const [state_TestText, state_SetTestText] = useState<string>("");
-
   const [state_DebugMobileLogs, state_SetDebugMobileLogsLogs] = useState<string[]>([]);
   const [state_DebugMobileButtonTapped, state_SetDebugMobileButtonTapped] = useState(0)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        signInAnonymously(auth)
+          .then(() => {
+            console.log("Signed in anon.");
+          })
+          .catch((error) => {
+            console.error("sign-in anon failed:", error);
+          });
+      } else {
+        console.log("User is signed in:", user.uid);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
 
