@@ -9,10 +9,12 @@ interface DebugScreens_Mobile_Props {
     given_DebugButtonPressedNumber: number;
     given_SetDebugButtonPressedNumber(givenNumber: number): void;
 
-    given_deviceInfo: DeviceInfo;
-
-
+    given_deviceInfoFormatted: string;
+    given_deviceInfoBrowserName: string;
+    given_deviceInfoBrowserVersion: string;
+    given_ProjectName: string;
     given_BuildNumber: string;
+
 
 
 }
@@ -91,17 +93,11 @@ export default function DebugScreens_Mobile(props: DebugScreens_Mobile_Props) {
                     textAlign: "start",
                     overflow: "auto",
                 }}>
-                    Current Build: {props.given_BuildNumber}
-                    <br></br>
-                    Device Type: {props.given_deviceInfo.type}
-                    <br></br>
-                    Device Model: {props.given_deviceInfo.model}
-                    <br></br>
-                    Device Vendor: {props.given_deviceInfo.vendor}
-                    <br></br>
-                    Browser Used: {props.given_deviceInfo.browser.name} Version: {props.given_deviceInfo.browser.version}
-
-
+                    <span>Project Name: {props.given_ProjectName}</span>
+                    <span>Current Build: {props.given_BuildNumber}</span>
+                    <span>Device Info: {props.given_deviceInfoFormatted}</span>
+                    <span>Browser Used: {props.given_deviceInfoBrowserName}</span>
+                    <span>Version: {props.given_deviceInfoBrowserVersion}</span>
                 </div>
 
                 <div

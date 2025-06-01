@@ -1,0 +1,17 @@
+.current-report-modal {
+
+    position: fixed;
+    /* <- changed from absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    padding: 5%;
+    z-index: 100000;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 1);
+    width: 75%;
+    height: 75%;
+    text-align: left;
+
+}

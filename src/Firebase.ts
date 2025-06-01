@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
+
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAdvU9v4X8LF8y1E8-QWLOfqK5NWZv7rJU",
@@ -17,14 +19,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-//initiate App Check - must be done BEFORE all other products, such as Firestore, Authentication, etc.
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6Ldx1UYrAAAAAKaVUZFXl4dubN9T5sxVv4GihEM-'),
-  isTokenAutoRefreshEnabled: true,
-});
 
 const analytics = getAnalytics(app);
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-export { app, appCheck, analytics, firestore, auth };
+export { app, analytics, firestore, doc, setDoc };
+

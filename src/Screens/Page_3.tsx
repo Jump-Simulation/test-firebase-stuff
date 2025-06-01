@@ -28,7 +28,10 @@ export default function Page_3(props: Page_3_Props) {
 
             </img>
             <Button
-                onClick={() => { props.given_SetPage("page4"), props.given_LogButtonPress("event-2"); props.given_AddObject( {"message" : "Error2"})}}
+                onClick={() => {
+                    props.given_SetPage("page4"), props.given_LogButtonPress("event-2");
+                    // props.given_AddObject( {"message" : "Error2"})
+                }}
                 style={{ backgroundColor: "lightgreen", color: "black", width: "85%", }}>Press to Log Event 2 and Continue</Button>
             <Button
                 onClick={() => { props.given_SetPage("page4") }}

@@ -66,6 +66,16 @@ export default function Page_1(props: Page_1_Props) {
                     style={{ backgroundColor: "maroon", color: "white", width: "100%", }}>
                     Press to Simulate a Nav Error!
                 </Button>
+                <Button
+                    onClick={() => { props.given_SetPage("page-Error-Image") }}
+                    style={{ backgroundColor: "darkcyan", color: "white", width: "100%", }}>
+                    Press to Simulate an Asset Load Error!
+                </Button>
+                <Button
+                    onClick={() => { props.given_SetPage("page-Example-ReportViewer") }}
+                    style={{ backgroundColor: "dodgerblue", color: "white", width: "100%", }}>
+                    Press to see some Reports!!
+                </Button>
 
 
             </div>
