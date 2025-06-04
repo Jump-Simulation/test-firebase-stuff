@@ -18,11 +18,16 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
+/* const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6Ldx1UYrAAAAAKaVUZFXl4dubN9T5sxVv4GihEM-'),
+  isTokenAutoRefreshEnabled: true,
+}); */
 
 const analytics = getAnalytics(app);
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-export { app, analytics, firestore, doc, setDoc };
+export { app, /* appCheck, */ analytics, firestore, doc, setDoc };
+
+
 
