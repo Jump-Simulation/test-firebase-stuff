@@ -1,0 +1,10 @@
+.current-build-text {
+    /* color: "white",
+    marginTop: "10px",
+    backgroundColor: "black",
+    padding: "5px" */
+    color: white;
+    margin-top: 10px;
+    background-color: rgb(97, 95, 95);
+    padding: 5px;
+}

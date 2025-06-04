@@ -1,5 +1,7 @@
 import { Button } from "react-bootstrap"
 import "../CSS/PageStyle.css"
+import "../CSS/Button-Custom.css"
+import Text_PageTitle from "../Components/Text_PageTitle";
 
 interface Page_1_Props {
     given_state_TestText: string;
@@ -14,7 +16,12 @@ export default function Page_1(props: Page_1_Props) {
     return (
         <div
             className="page-default">
-            <h1 style={{ color: "lightgray" }}>Page 1</h1>
+            {/*         <h1 style={{ color: "lightgray" }}>Page 1</h1> */}
+            <Text_PageTitle
+
+                textToRender="Page 1"
+
+            />
             <img
 
                 style={{ height: "auto", width: "50%", maxWidth: "350px" }}
@@ -63,17 +70,23 @@ export default function Page_1(props: Page_1_Props) {
 
                 <Button
                     onClick={() => { props.given_SetPage("page_that_doesn't_exist!") }}
-                    style={{ backgroundColor: "maroon", color: "white", width: "100%", }}>
+                    className={"eddies-custom-button"}
+
+                    style={{ backgroundColor: "maroon" }}
+                >
                     Press to Simulate a Nav Error!
                 </Button>
                 <Button
                     onClick={() => { props.given_SetPage("page-Error-Image") }}
-                    style={{ backgroundColor: "darkcyan", color: "white", width: "100%", }}>
+                    className={"eddies-custom-button"}
+                >
                     Press to Simulate an Asset Load Error!
                 </Button>
                 <Button
                     onClick={() => { props.given_SetPage("page-Example-ReportViewer") }}
-                    style={{ backgroundColor: "dodgerblue", color: "white", width: "100%", }}>
+                    className={"eddies-custom-button"}
+
+                >
                     Press to see some Reports!!
                 </Button>
 

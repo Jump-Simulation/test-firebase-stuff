@@ -7,7 +7,7 @@ var debugMode = false;
 
 
 
-
+import "./CSS/currentBuildStyle.css"
 import { useEffect, useState, createContext, useContext, useMemo } from 'react'
 import './App.css'
 import "bootstrap/dist/css/bootstrap.css"
@@ -507,12 +507,7 @@ function App() {
 
         {RenderDebugScreens()}
 
-        <h6 style={{
-          color: "white",
-          marginTop: "10px",
-          backgroundColor: "darkgray",
-          padding: "5px"
-        }}>
+        <h6 className='current-build-text'>
           Current Build: {BuildVersion}
         </h6>
         {RenderPages()}
